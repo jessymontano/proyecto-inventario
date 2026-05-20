@@ -1,4 +1,4 @@
-package mx.unison;
+package mx.unison.proyectoinventario.view;
 
 import javax.swing.*;
 import java.awt.*;

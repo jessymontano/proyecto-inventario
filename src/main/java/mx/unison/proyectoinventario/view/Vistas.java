@@ -1,4 +1,6 @@
-package mx.unison;
+package mx.unison.proyectoinventario.view;
+
+import mx.unison.proyectoinventario.dao.Database;
 
 import javax.swing.*;
 import java.awt.*;

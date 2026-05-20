@@ -1,4 +1,6 @@
-package mx.unison;
+package mx.unison.proyectoinventario;
+
+import mx.unison.proyectoinventario.view.Vistas;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;

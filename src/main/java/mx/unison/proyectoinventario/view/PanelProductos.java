@@ -1,20 +1,20 @@
-package mx.unison;
+package mx.unison.proyectoinventario.view;
 
-import mx.unison.Database;
-import mx.unison.Almacen;
+import mx.unison.proyectoinventario.dao.Database;
+import mx.unison.proyectoinventario.model.Producto;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-public class AlmacenesPanel extends JPanel {
+public class PanelProductos extends JPanel{
     private final Database db;
     private final Runnable onGoBack;
     private JTable table;
     private DefaultTableModel model;
 
-    public AlmacenesPanel(Database db, Runnable onGoBack) {
+    public PanelProductos(Database db, Runnable onGoBack) {
         this.db = db;
         this.onGoBack = onGoBack;
         setLayout(new BorderLayout());
@@ -33,9 +33,8 @@ public class AlmacenesPanel extends JPanel {
             int r = table.getSelectedRow();
             if (r >= 0) {
                 int id = (int) model.getValueAt(r, 0);
-                Almacen a = new Almacen();
-                a.id = id;
-                openForm(a);
+                Producto p = new Producto(); p.id = id; // simplificado, en form volveremos a cargar
+                openForm(p);
             }
         });
         JButton del = new JButton("Eliminar");
@@ -43,40 +42,33 @@ public class AlmacenesPanel extends JPanel {
             int r = table.getSelectedRow();
             if (r >= 0) {
                 int id = (int) model.getValueAt(r, 0);
-                int opt = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar el almacén?", "Confirmar", JOptionPane.YES_NO_OPTION);
+                int opt = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar el producto?", "Confirmar", JOptionPane.YES_NO_OPTION);
                 if (opt == JOptionPane.YES_OPTION) {
-                    db.deleteAlmacen(id);
+                    db.deleteProducto(id);
                     loadData();
                 }
             }
         });
-        top.add(back);
-        top.add(add);
-        top.add(edit);
-        top.add(del);
+        top.add(back); top.add(add); top.add(edit); top.add(del);
         add(top, BorderLayout.NORTH);
     }
 
     private void initTable() {
-        model = new DefaultTableModel(new Object[]{"ID", "Nombre", "Ubicación", "Creado", "Últ.Mod", "Últ.Usuario"}, 0) {
-            public boolean isCellEditable(int row, int col) {
-                return false;
-            }
+        model = new DefaultTableModel(new Object[]{"ID","Nombre","Descripción","Cantidad","Precio","Almacén","Creado","Últ.Mod","Últ.Usuario"}, 0) {
+            public boolean isCellEditable(int row, int col) { return false; }
         };
         table = new JTable(model);
         add(new JScrollPane(table), BorderLayout.CENTER);
     }
-
     private void loadData() {
         model.setRowCount(0);
-        List<Almacen> list = db.listAlmacenes();
-        for (Almacen a : list) {
-            model.addRow(new Object[]{a.id, a.nombre, a.ubicacion, a.fechaHoraCreacion, a.fechaHoraUltimaMod, a.ultimoUsuario});
+        List<Producto> productos = db.listProductos();
+        for (Producto p : productos) {
+            model.addRow(new Object[]{p.id, p.nombre, p.descripcion, p.cantidad, p.precio, p.almacenNombre, p.fechaCreacion, p.fechaModificacion, p.ultimoUsuario});
         }
     }
-
-    private void openForm(Almacen a) {
-        JOptionPane.showMessageDialog(this, "Aquí se abriría el formulario de almacén (implemente FormAlmacen para edición detallada)");
+    private void openForm(Producto p) {
+        JOptionPane.showMessageDialog(this, "Aquí se abriría el formulario de producto (implemente FormProducto para edición detallada)");
         loadData();
     }
 }

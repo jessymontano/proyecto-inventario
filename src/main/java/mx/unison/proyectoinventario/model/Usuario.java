@@ -1,4 +1,4 @@
-package mx.unison;
+package mx.unison.proyectoinventario.model;
 
 public class Usuario {
     public String nombre;

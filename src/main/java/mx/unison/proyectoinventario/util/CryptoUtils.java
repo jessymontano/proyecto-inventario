@@ -1,4 +1,4 @@
-package mx.unison;
+package mx.unison.proyectoinventario.util;
 
 import java.security.MessageDigest;
 
