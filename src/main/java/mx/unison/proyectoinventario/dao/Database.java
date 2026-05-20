@@ -1,4 +1,9 @@
-package mx.unison;
+package mx.unison.proyectoinventario.dao;
+
+import mx.unison.proyectoinventario.model.Almacen;
+import mx.unison.proyectoinventario.model.Producto;
+import mx.unison.proyectoinventario.model.Usuario;
+import mx.unison.proyectoinventario.util.CryptoUtils;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -7,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    private static final String URL = "jdbc:sqlite:C:/Users/jorge/OneDrive/Escritorio/Inventario.db";
+    private static final String URL = "jdbc:sqlite:Inventario.db";
 
     public Database() {
         init();
@@ -20,11 +25,11 @@ public class Database {
     private void init() {
         try (Connection c = connect(); Statement st = c.createStatement()) {
 // Tabla usuarios
-            st.execute("CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT,nombre TEXT PRIMARY KEY, password TEXT NOT NULL, Ultimo_Inicio_de_Sesion TEXT, rol TEXT NOT NULL)");
+            st.execute("CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT,nombre TEXT NOT NULL, password TEXT NOT NULL, fecha_hora_ultimo_inicio TEXT, rol TEXT NOT NULL)");
 // Tabla almacenes
             st.execute("CREATE TABLE IF NOT EXISTS almacenes (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, ubicacion TEXT, fecha_hora_creacion TEXT, fecha_hora_ultima_modificacion TEXT, ultimo_usuario_en_modificar TEXT)");
 // Tabla productos
-            st.execute("CREATE TABLE IF NOT EXISTS productos (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, precio REAL DEFAULT 0.0, cantidad INTEGER NOT NULL, departamento TEXT NOT NULL, almacen INTEGER, descripcion TEXT, fecha_hora_creacion INTEGER DEFAULT 0, fecha_hora_ultima_modificacion TEXT, ultimo_usuario_en_modificar TEXT)");
+            st.execute("CREATE TABLE IF NOT EXISTS productos (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, precio REAL DEFAULT 0.0, cantidad INTEGER NOT NULL, departamento TEXT NOT NULL, almacen_id INTEGER, descripcion TEXT, fecha_hora_creacion INTEGER DEFAULT 0, fecha_hora_ultima_modificacion TEXT, ultimo_usuario_en_modificar TEXT)");
 // Insertar usuarios base si no existen
             insertDefaultUser("ADMIN", "admin23", "ADMIN");
             insertDefaultUser("PRODUCTOS", "productos19", "PRODUCTOS");
@@ -47,6 +52,7 @@ public class Database {
                     ps2.setString(1, nombre);
                     ps2.setString(2, CryptoUtils.md5(passPlain));
                     ps2.setString(3, rol);
+                    ps2.executeUpdate();
                 }
             }
         }
