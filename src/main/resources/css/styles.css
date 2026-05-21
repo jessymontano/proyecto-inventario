@@ -113,3 +113,11 @@
     -fx-background-color: -primary-hover;
     -fx-text-fill: -text-light;
 }
+
+.form {
+    -fx-background-color: -bg-card;
+    -fx-padding: 15;
+    -fx-background-radius: 5;
+    -fx-border-color: -primary-color;
+    -fx-border-width: 2;
+}

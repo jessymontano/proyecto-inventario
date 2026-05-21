@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.*?>
+
+<VBox stylesheets="@../css/styles.css" styleClass="root-background" spacing="20" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.unison.proyectoinventario.controller.AlmacenesController">
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Label text="Gestión de almacenes" styleClass="login-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label text="Buscar:" styleClass="form-label"/>
+        <TextField fx:id="searchField" promptText="Nombre, fecha..." styleClass="form-input" prefWidth="250"/>
+    </HBox>
+
+    <TableView fx:id="almacenesTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn text="ID" fx:id="idCol" prefWidth="50">
+                <cellValueFactory><PropertyValueFactory property="id"/> </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Nombre" fx:id="nombreCol" prefWidth="150">
+                <cellValueFactory><PropertyValueFactory property="nombre"/> </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Ubicación" fx:id="ubicacionCol" prefWidth="200">
+                <cellValueFactory><PropertyValueFactory property="ubicacion"/> </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Creación" fx:id="creacionCol" prefWidth="150">
+                <cellValueFactory><PropertyValueFactory property="fechaHoraCreacion"/> </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Modificación" fx:id="modificacionCol" prefWidth="150">
+                <cellValueFactory><PropertyValueFactory property="fechaHoraUltimaMod"/> </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+
+    <VBox fx:id="form" spacing="10" visible="false" managed="false" styleClass="form">
+        <Label fx:id="formTitle" text="Crear almacén" styleClass="login-title" style="-fx-font-size: 18px;"/>
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <VBox spacing="5">
+                <Label text="Nombre:" styleClass="form-label"/>
+                <TextField fx:id="nombreField" promptText="Ej. Almacén Central" styleClass="form-input"/>
+            </VBox>
+            <VBox spacing="5">
+                <Label text="Ubicación:" styleClass="form-label"/>
+                <TextField fx:id="ubicacionField" promptText="Ej. Edificio A" styleClass="form-input" prefWidth="200"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <!-- Botones del formulario -->
+            <Button text="Cancelar" onAction="#cancelForm" styleClass="form-input" style="-fx-cursor: hand;"/>
+            <Button text="Guardar" onAction="#saveAlmacen" styleClass="btn-primary" />
+        </HBox>
+    </VBox>
+
+    <HBox fx:id="buttonBox" alignment="CENTER" spacing="15">
+        <Button text="Agregar almacén" onAction="#openAddModal" styleClass="btn-primary" />
+        <Button text="Modificar seleccionado" onAction="#openUpdateModal" styleClass="btn-warning"/>
+        <Button text="Eliminar seleccionado" onAction="#deleteAlmacen" styleClass="btn-error"/>
+    </HBox>
+</VBox>
