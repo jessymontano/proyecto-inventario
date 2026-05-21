@@ -1,0 +1,115 @@
+.root {
+    -primary-color: #00529e;
+    -primary-hover: #003365;
+    -secondary-color: #f8bb00;
+    -secondary-hover: #a98108;
+
+    -warning-color: #f49313;
+    -warning-hover: #dc8411;
+    -error-color: #ed2f48;
+    -error-hover: #be263a;
+
+    -text-dark: #3a3a3c;
+    -text-light: #fafafc;
+    -label-dark: #6b7588;
+    -border-light: #ebebf0;
+
+    -bg-main: #e5e5e5;
+    -bg-card: #fafafc;
+
+    -fx-font-family: 'Segoe UI';
+    -fx-font-size: 14px;
+}
+.root-background {
+    -fx-background-color: -bg-main;
+}
+
+.login-card {
+    -fx-background-color: -bg-card;
+    -fx-padding: 40;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10 10 0 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+.login-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -text-dark;
+}
+
+.form-label {
+    -fx-text-fill: -label-dark;
+}
+
+.form-input {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: -border-light;
+    -fx-padding: 8;
+}
+
+.form-input:focused {
+    -fx-border-color: -primary-color;
+}
+
+.btn-primary {
+    -fx-background-color: -primary-color;
+    -fx-text-fill: -text-light;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.btn-warning {
+    -fx-background-color: -warning-color;
+    -fx-text-fill: -text-light;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.btn-error {
+    -fx-background-color: -error-color;
+    -fx-text-fill: -text-light;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.btn-primary:hover {
+    -fx-background-color: -primary-hover;
+}
+
+.btn-warning:hover {
+    -fx-background-color: -warning-hover;
+}
+
+.btn-error:hover {
+    -fx-background-color: -error-hover;
+}
+
+.navbar {
+    -fx-background-color: -primary-color;
+    -fx-padding: 20 0 20 0;
+}
+
+.nav-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -text-light;
+    -fx-padding: 0 20 20 20;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -text-light;
+    -fx-font-size: 16px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12 20 12 20;
+    -fx-cursor: hand;
+}
+.nav-button:hover {
+    -fx-background-color: -primary-hover;
+    -fx-text-fill: -text-light;
+}

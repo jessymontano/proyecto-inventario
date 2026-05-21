@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane styleClass="root-background" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.unison.proyectoinventario.controller.LoginController">
+    <VBox styleClass="login-card" alignment="CENTER" maxWidth="350" maxHeight="400" spacing="20">
+        <Label text="Login" styleClass="login-title" />
+
+        <VBox spacing="5">
+            <Label text="Usuario" styleClass="form-label" />
+            <TextField fx:id="usuarioField" promptText="Ingrese su usuario" styleClass="form-input" />
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="Contraseña" styleClass="form-label" />
+            <PasswordField fx:id="passwordField" promptText="Ingrese su contraseña" styleClass="form-input" />
+        </VBox>
+
+        <Label fx:id="error" textFill="#ed2f48" wrapText="true"/>
+
+        <Button text="Iniciar sesión" onAction="#login" styleClass="btn-primary" prefWidth="300" prefHeight="40"/>
+    </VBox>
+</StackPane>
