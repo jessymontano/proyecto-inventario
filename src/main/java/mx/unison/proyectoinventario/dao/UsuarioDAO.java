@@ -22,7 +22,7 @@ public class UsuarioDAO {
                 String ins = "INSERT INTO usuarios(nombre, password, rol) VALUES(?, ?, ?)";
                 try (PreparedStatement ps2 = c.prepareStatement(ins)) {
                     ps2.setString(1, nombre);
-                    ps2.setString(2, CryptoUtils.md5(passPlain));
+                    ps2.setString(2, CryptoUtils.hashPassword(passPlain));
                     ps2.setString(3, rol);
                     ps2.executeUpdate();
                 }
@@ -36,20 +36,25 @@ public class UsuarioDAO {
         String sql = "SELECT nombre, rol FROM usuarios WHERE nombre=? AND password=?";
         try (Connection c = DatabaseConnection.connect(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, nombre);
-            ps.setString(2, CryptoUtils.md5(passwordPlain));
+            ps.setString(2, CryptoUtils.hashPassword(passwordPlain));
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Usuario u = new Usuario();
-                u.nombre = rs.getString("nombre");
-                u.rol = rs.getString("rol");
+                String hash = rs.getString("password");
 
-                String upd = "UPDATE usuarios SET fecha_hora_ultimo_inicio=? WHERE nombre=?";
-                try (PreparedStatement pu = c.prepareStatement(upd)) {
-                    pu.setString(1, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-                    pu.setString(2, nombre);
-                    pu.executeUpdate();
+                // verificar que las contraseñas sean iguales
+                if (CryptoUtils.verifyPassword(passwordPlain, hash)) {
+                    Usuario u = new Usuario();
+                    u.nombre = rs.getString("nombre");
+                    u.rol = rs.getString("rol");
+
+                    String upd = "UPDATE usuarios SET fecha_hora_ultimo_inicio=? WHERE nombre=?";
+                    try (PreparedStatement pu = c.prepareStatement(upd)) {
+                        pu.setString(1, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                        pu.setString(2, nombre);
+                        pu.executeUpdate();
+                    }
+                    return u;
                 }
-                return u;
             }
         } catch (SQLException e) {
             e.printStackTrace();
