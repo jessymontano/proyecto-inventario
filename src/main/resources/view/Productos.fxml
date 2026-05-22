@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.*?>
+
+<VBox stylesheets="@../css/styles.css" styleClass="root-background" spacing="20" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.unison.proyectoinventario.controller.ProductosController">
+
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <Label text="Gestión de Productos" styleClass="login-title" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Label text="Buscar:" styleClass="form-label" />
+        <TextField fx:id="searchField" promptText="Nombre, depto..." styleClass="form-input" prefWidth="250"/>
+    </HBox>
+
+    <TableView fx:id="productoTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn text="ID" fx:id="idCol" prefWidth="50">
+                <cellValueFactory><PropertyValueFactory property="id" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Nombre" fx:id="nombreCol" prefWidth="150">
+                <cellValueFactory><PropertyValueFactory property="nombre" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Precio" fx:id="precioCol" prefWidth="80">
+                <cellValueFactory><PropertyValueFactory property="precio" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Stock" fx:id="cantidadCol" prefWidth="80">
+                <cellValueFactory><PropertyValueFactory property="cantidad" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Descripción" fx:id="descripcionCol" prefWidth="120">
+                <cellValueFactory><PropertyValueFactory property="descripcion" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Almacén" fx:id="almacenCol" prefWidth="100">
+                <cellValueFactory><PropertyValueFactory property="almacenNombre" /></cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+
+    <VBox fx:id="form" spacing="10" visible="false" managed="false" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 5; -fx-border-color: #00529e; -fx-border-width: 2;">
+        <Label fx:id="formTitle" text="Nuevo Producto" styleClass="login-title" style="-fx-font-size: 18px;"/>
+
+        <HBox spacing="15">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label text="Nombre:" styleClass="form-label"/>
+                <TextField fx:id="nombreField" promptText="Ej. Laptop" styleClass="form-input"/>
+            </VBox>
+            <VBox spacing="5">
+                <Label text="Precio:" styleClass="form-label"/>
+                <TextField fx:id="precioField" promptText="0.00" styleClass="form-input" prefWidth="100"/>
+            </VBox>
+            <VBox spacing="5">
+                <Label text="Cantidad:" styleClass="form-label"/>
+                <TextField fx:id="cantidadField" promptText="0" styleClass="form-input" prefWidth="100"/>
+            </VBox>
+        </HBox>
+
+        <HBox spacing="15" alignment="BOTTOM_LEFT">
+            <VBox spacing="5">
+                <Label text="Descripción:" styleClass="form-label"/>
+                <TextField fx:id="descripcionField" promptText="Ej. Color negro, 16GB RAM..." styleClass="form-input" prefWidth="150"/>
+            </VBox>
+            <VBox spacing="5">
+                <Label text="Almacén Destino:" styleClass="form-label"/>
+                <ComboBox fx:id="almacenCombo" promptText="Seleccione..." styleClass="form-input" prefWidth="150"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Cancelar" onAction="#cancelForm" styleClass="form-input" style="-fx-cursor: hand;"/>
+            <Button text="Guardar" onAction="#saveProducto" styleClass="btn-primary" />
+        </HBox>
+    </VBox>
+
+    <HBox fx:id="buttonBox" alignment="CENTER_RIGHT" spacing="15">
+        <Button text="Agregar Nuevo" onAction="#openAddModal" styleClass="btn-primary" />
+        <Button text="Modificar Seleccionado" onAction="#openUpdateModal" styleClass="btn-primary" />
+        <Button text="Eliminar Seleccionado" onAction="#deleteProducto" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;" />
+    </HBox>
+
+</VBox>
