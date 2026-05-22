@@ -43,14 +43,6 @@ public class DatabaseConnection {
                     "fecha_hora_creacion INTEGER DEFAULT 0," +
                     "fecha_hora_ultima_modificacion TEXT," +
                     "ultimo_usuario_en_modificar TEXT)");
-
-//            // Insertar usuarios base si no existen
-//            insertDefaultUser("ADMIN", "admin23", "ADMIN");
-//            insertDefaultUser("PRODUCTOS", "productos19", "PRODUCTOS");
-//            insertDefaultUser("ALMACENES", "almacenes11", "ALMACENES");
-//            // Establecer fecha de creación para productos/almacenes existentes si están vacíos
-//            setDefaultFechaCreacionIfEmpty("productos");
-//            setDefaultFechaCreacionIfEmpty("almacenes");
         } catch (SQLException e) {
             System.err.println("Error inicializando la base de datos: "  + e.getMessage());
         }

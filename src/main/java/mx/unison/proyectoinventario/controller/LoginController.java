@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import mx.unison.proyectoinventario.Main;
 import mx.unison.proyectoinventario.dao.UsuarioDAO;
 import mx.unison.proyectoinventario.model.Usuario;
+import mx.unison.proyectoinventario.util.Session;
 
 public class LoginController {
     @FXML private TextField usuarioField;
@@ -36,6 +37,7 @@ public class LoginController {
         if (usuario != null) {
             error.setText("");
             try {
+                Session.setCurrentUser(usuario);
                 Main.setRoot("/view/MainLayout.fxml");
             } catch (Exception e) {
                 e.printStackTrace();

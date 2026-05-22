@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import mx.unison.proyectoinventario.dao.AlmacenDAO;
 import mx.unison.proyectoinventario.model.Almacen;
+import mx.unison.proyectoinventario.util.Session;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,12 @@ public class AlmacenesController {
 
     @FXML
     public void initialize() {
+        String userRole = Session.getCurrentUser().rol;
+
+        if ("PRODUCTOS".equalsIgnoreCase(userRole)) {
+            buttonBox.setVisible(false);
+            buttonBox.setManaged(false);
+        }
         almacenDAO = new AlmacenDAO();
         loadData();
     }
@@ -46,7 +53,7 @@ public class AlmacenesController {
         nombreField.clear();
         ubicacionField.clear();
 
-        toggleModal(true);
+        toggleForm(true);
     }
 
     @FXML
@@ -54,6 +61,7 @@ public class AlmacenesController {
         Almacen selected = almacenesTable.getSelectionModel().getSelectedItem();
 
         if (selected == null) {
+            showAlert(Alert.AlertType.WARNING, "No se ha seleccionado un almacén", "Por favor seleccione un almacén de la tabla para modificar.");
             return;
         }
 
@@ -64,12 +72,12 @@ public class AlmacenesController {
         nombreField.setText(selected.getNombre());
         ubicacionField.setText(selected.getUbicacion());
 
-        toggleModal(true);
+        toggleForm(true);
     }
 
     @FXML
     public void cancelForm(ActionEvent event) {
-        toggleModal(false);
+        toggleForm(false);
     }
 
     @FXML
@@ -78,28 +86,27 @@ public class AlmacenesController {
         String ubicacion = ubicacionField.getText();
 
         if (nombre.trim().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Campos incompletos", "Por favor, llena el nombre del almacén.");
             return;
         }
 
+        String username = Session.getCurrentUser().nombre;
+
         if (editing) {
-            almacenDAO.updateAlmacen(selectedAlmacen.getId(), nombre, ubicacion, "ADMIN");
+            almacenDAO.updateAlmacen(selectedAlmacen.getId(), nombre, ubicacion, username);
         } else {
-            almacenDAO.insertAlmacen(nombre, ubicacion, "ADMIN");
+            almacenDAO.insertAlmacen(nombre, ubicacion, username);
         }
 
         loadData();
-        toggleModal(false);
+        toggleForm(false);
     }
 
     @FXML
     public void deleteAlmacen(ActionEvent event) {
         Almacen selectedAlmacen = almacenesTable.getSelectionModel().getSelectedItem();
         if (selectedAlmacen == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No se ha seleccionado un almacén");
-            alert.setHeaderText(null);
-            alert.setContentText("Por favor seleccione un almacén de la tabla para eliminar.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.WARNING, "No se ha seleccionado un almacén", "Por favor seleccione un almacén de la tabla para eliminar.");
             return;
         }
 
@@ -115,10 +122,18 @@ public class AlmacenesController {
         }
     }
 
-    private void toggleModal(boolean show) {
+    private void toggleForm(boolean show) {
         form.setVisible(show);
         form.setManaged(show);
         buttonBox.setVisible(!show);
         buttonBox.setManaged(!show);
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

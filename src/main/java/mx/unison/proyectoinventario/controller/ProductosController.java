@@ -12,6 +12,7 @@ import mx.unison.proyectoinventario.dao.AlmacenDAO;
 import mx.unison.proyectoinventario.dao.ProductoDAO;
 import mx.unison.proyectoinventario.model.Almacen;
 import mx.unison.proyectoinventario.model.Producto;
+import mx.unison.proyectoinventario.util.Session;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,12 @@ public class ProductosController {
 
     @FXML
     public void initialize() {
+        String userRole = Session.getCurrentUser().rol;
+
+        if ("ALMACENES".equalsIgnoreCase(userRole)) {
+            buttonBox.setVisible(false);
+            buttonBox.setManaged(false);
+        }
         productoDAO = new ProductoDAO();
         almacenDAO = new AlmacenDAO();
 
@@ -124,10 +131,12 @@ public class ProductosController {
                 return;
             }
 
+            String username = Session.getCurrentUser().nombre;
+
             if (editing) {
-                productoDAO.updateProducto(new Producto(selectedProducto.getId(),nombre, descripcion, cantidad, precio, selected.getId()), "ADMIN");
+                productoDAO.updateProducto(new Producto(selectedProducto.getId(),nombre, descripcion, cantidad, precio, selected.getId()), username);
             } else {
-                productoDAO.insertProducto(new Producto(nombre, descripcion, cantidad, precio, selected.getId()), "ADMIN");
+                productoDAO.insertProducto(new Producto(nombre, descripcion, cantidad, precio, selected.getId()), username);
             }
 
             loadData();
