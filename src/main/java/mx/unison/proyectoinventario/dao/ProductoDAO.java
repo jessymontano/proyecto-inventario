@@ -60,7 +60,7 @@ public class ProductoDAO {
     }
 
     public void updateProducto(Producto prod, String usuario) {
-        String sql = "UPDATE productos SET nombre=?, descripcion=?, cantidad=?, precio=?, departamento=? almacen_id=?, fecha_hora_ultima_modificacion=?, ultimo_usuario_en_modificar=? " +
+        String sql = "UPDATE productos SET nombre=?, descripcion=?, cantidad=?, precio=?, departamento=?, almacen_id=?, fecha_hora_ultima_modificacion=?, ultimo_usuario_en_modificar=? " +
                 "WHERE id=?";
         try (Connection c = DatabaseConnection.connect(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, prod.nombre);
