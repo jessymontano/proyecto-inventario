@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
 <BorderPane stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.unison.proyectoinventario.controller.MainLayoutController">
     <!-- navbar -->
@@ -23,9 +25,13 @@
     <center>
         <StackPane fx:id="contentArea" styleClass="root-background">
             <VBox alignment="CENTER" spacing="15">
-                <Label text="Bienvenido al Sistema" styleClass="login-title" />
+                <ImageView fitWidth="180" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/logo-unison.png"/>
+                    </image>
+                </ImageView>
+                <Label text="Sistema de gestión de inventario" styleClass="login-title" />
                 <Label text="Desarrollado por: Jessica Montaño Lares" styleClass="form-label" />
-                <Label text="Universidad de Sonora" styleClass="form-label" style="-fx-font-weight: bold;"/>
             </VBox>
         </StackPane>
     </center>
