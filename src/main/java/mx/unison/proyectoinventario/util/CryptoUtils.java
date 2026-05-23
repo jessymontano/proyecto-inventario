@@ -2,8 +2,6 @@ package mx.unison.proyectoinventario.util;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
-import java.security.MessageDigest;
-
 public class CryptoUtils {
     public static String hashPassword(String password) {
         return BCrypt.withDefaults().hashToString(12, password.toCharArray());
