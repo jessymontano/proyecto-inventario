@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import mx.unison.proyectoinventario.Main;
+import mx.unison.proyectoinventario.util.Session;
 
 public class MainLayoutController {
     @FXML private StackPane contentArea;
@@ -44,6 +45,7 @@ public class MainLayoutController {
     @FXML
     public void logout(ActionEvent event) {
         try {
+            Session.logout();
             Main.setRoot("/view/Login.fxml");
         } catch (Exception e) {
             e.printStackTrace();
