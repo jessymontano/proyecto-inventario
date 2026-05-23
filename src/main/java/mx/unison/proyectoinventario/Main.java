@@ -28,7 +28,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
         Parent root = loader.load();
 
-        Scene scene = new Scene(root, 1024, 768);
+        Scene scene = new Scene(root, 1200, 700);
 
         mainStage.setTitle("Sistema de gestión de inventario");
         mainStage.setScene(scene);
