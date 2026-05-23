@@ -2,6 +2,8 @@ package mx.unison.proyectoinventario.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -37,13 +39,43 @@ public class AlmacenesController {
             buttonBox.setManaged(false);
         }
         almacenDAO = new AlmacenDAO();
+        almacenes = FXCollections.observableArrayList();
+
         loadData();
+        loadSearchFilter();
     }
 
     private void loadData() {
         List<Almacen> dbList = almacenDAO.listAlmacenes();
-        almacenes = FXCollections.observableArrayList(dbList);
-        almacenesTable.setItems(almacenes);
+        almacenes.setAll(dbList);
+    }
+
+    private void loadSearchFilter() {
+        FilteredList<Almacen> filteredData = new FilteredList<>(almacenes,b -> true);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(almacen -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String filter = newValue.toLowerCase();
+
+                if (String.valueOf(almacen.getId()).contains(filter)) return true;
+                if (almacen.getNombre() != null && almacen.getNombre().toLowerCase().contains(filter)) return true;
+                if (almacen.getUbicacion() != null && almacen.getUbicacion().toLowerCase().contains(filter)) return true;
+                if (almacen.getFechaHoraCreacion() != null && almacen.getFechaHoraCreacion().toLowerCase().contains(filter)) return true;
+                if (almacen.getFechaHoraUltimaMod() != null && almacen.getFechaHoraUltimaMod().toLowerCase().contains(filter)) return true;
+                if (almacen.getUltimoUsuario() != null && almacen.getUltimoUsuario().toLowerCase().contains(filter)) return true;
+
+                return false;
+            });
+        });
+
+        SortedList<Almacen> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(almacenesTable.comparatorProperty());
+
+        almacenesTable.setItems(sortedData);
     }
 
     @FXML

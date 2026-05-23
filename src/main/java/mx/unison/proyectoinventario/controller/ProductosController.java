@@ -2,6 +2,8 @@ package mx.unison.proyectoinventario.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -26,6 +28,7 @@ public class ProductosController {
     @FXML private Label formTitle;
     @FXML private TextField nombreField;
     @FXML private TextField precioField;
+    @FXML private TextField departamentoField;
     @FXML private TextField cantidadField;
     @FXML private TextField descripcionField;
     @FXML private ComboBox<Almacen> almacenCombo;
@@ -46,9 +49,11 @@ public class ProductosController {
         }
         productoDAO = new ProductoDAO();
         almacenDAO = new AlmacenDAO();
+        productos = FXCollections.observableArrayList();
 
         loadAlmacenesComboBox();
         loadData();
+        loadSearchFilter();
     }
 
     private void loadAlmacenesComboBox() {
@@ -69,8 +74,38 @@ public class ProductosController {
 
     private void loadData() {
         List<Producto> dbList = productoDAO.listProductos();
-        productos = FXCollections.observableArrayList(dbList);
-        productoTable.setItems(productos);
+        productos.setAll(dbList);
+    }
+
+    private void loadSearchFilter() {
+        FilteredList<Producto> filteredData = new FilteredList<>(productos, b -> true);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(producto -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String filter = newValue.toLowerCase();
+
+                if (String.valueOf(producto.getId()).contains(filter)) return true;
+                if (producto.getNombre() != null && producto.getNombre().toLowerCase().contains(filter)) return true;
+                if (producto.getDescripcion() != null && producto.getDescripcion().toLowerCase().contains(filter)) return true;
+                if (String.valueOf(producto.getCantidad()).contains(filter)) return true;
+                if (String.valueOf(producto.getPrecio()).contains(filter)) return true;
+                if (producto.getDepartamento() != null && producto.getDepartamento().toLowerCase().contains(filter)) return true;
+                if (producto.getAlmacenNombre() != null && producto.getAlmacenNombre().toLowerCase().contains(filter)) return true;
+                if (producto.getFechaCreacion() != null && producto.getFechaCreacion().toLowerCase().contains(filter)) return true;
+                if (producto.getFechaModificacion() != null && producto.getFechaModificacion().toLowerCase().contains(filter)) return true;
+                if (producto.getUltimoUsuario() != null && producto.getUltimoUsuario().toLowerCase().contains(filter)) return true;
+
+                return false;
+            });
+        });
+
+        SortedList<Producto> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(productoTable.comparatorProperty());
+        productoTable.setItems(sortedData);
     }
 
     @FXML
@@ -79,6 +114,7 @@ public class ProductosController {
         formTitle.setText("Crear producto");
         nombreField.clear();
         precioField.clear();
+        departamentoField.clear();
         cantidadField.clear();
         descripcionField.clear();
         almacenCombo.getSelectionModel().clearSelection();
@@ -100,6 +136,7 @@ public class ProductosController {
 
         nombreField.setText(selected.getNombre());
         precioField.setText(String.valueOf(selected.getPrecio()));
+        departamentoField.setText(selected.getDepartamento());
         cantidadField.setText(String.valueOf(selected.getCantidad()));
         descripcionField.setText(selected.getDescripcion());
 
@@ -117,9 +154,10 @@ public class ProductosController {
         String nombre = nombreField.getText();
         String descripcion = descripcionField.getText();
         Almacen selected = almacenCombo.getValue();
+        String departamento = departamentoField.getText();
 
         if (nombre.isEmpty() || descripcion.isEmpty() || selected == null) {
-            showAlert(Alert.AlertType.ERROR, "Campos incompletos", "Por favor, llena el nombre, la descripción y selecciona un almacén de destino.");
+            showAlert(Alert.AlertType.ERROR, "Campos incompletos", "Por favor, llena el nombre, la descripción, el departamento y selecciona un almacén de destino.");
             return;
         }
         try {
@@ -134,9 +172,9 @@ public class ProductosController {
             String username = Session.getCurrentUser().nombre;
 
             if (editing) {
-                productoDAO.updateProducto(new Producto(selectedProducto.getId(),nombre, descripcion, cantidad, precio, selected.getId()), username);
+                productoDAO.updateProducto(new Producto(selectedProducto.getId(),nombre, descripcion, cantidad, precio, departamento, selected.getId()), username);
             } else {
-                productoDAO.insertProducto(new Producto(nombre, descripcion, cantidad, precio, selected.getId()), username);
+                productoDAO.insertProducto(new Producto(nombre, descripcion, cantidad, precio, departamento, selected.getId()), username);
             }
 
             loadData();
