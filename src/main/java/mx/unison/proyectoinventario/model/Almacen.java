@@ -1,5 +1,8 @@
 package mx.unison.proyectoinventario.model;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Almacen {
     public int id;
     public String nombre;
@@ -23,11 +26,11 @@ public class Almacen {
     }
 
     public String getFechaHoraCreacion() {
-        return fechaHoraCreacion;
+        return formatDate(this.fechaHoraCreacion);
     }
 
     public String getFechaHoraUltimaMod() {
-        return fechaHoraUltimaMod;
+        return formatDate(this.fechaHoraUltimaMod);
     }
 
     public String getUltimoUsuario() {
@@ -56,5 +59,19 @@ public class Almacen {
 
     public void setUltimoUsuario(String ultimoUsuario) {
         this.ultimoUsuario = ultimoUsuario;
+    }
+
+    private String formatDate(String isoDate) {
+        if (isoDate == null  || isoDate.trim().isEmpty()) {
+            return "";
+        }
+        try {
+            LocalDateTime date = LocalDateTime.parse(isoDate);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
+
+            return date.format(formatter);
+        } catch (Exception e) {
+            return isoDate;
+        }
     }
 }
