@@ -30,8 +30,20 @@
             <TableColumn text="Descripción" fx:id="descripcionCol" prefWidth="120">
                 <cellValueFactory><PropertyValueFactory property="descripcion" /></cellValueFactory>
             </TableColumn>
+            <TableColumn text="Departamento" fx:id="departamentoCol" prefWidth="120">
+                <cellValueFactory><PropertyValueFactory property="departamento" /></cellValueFactory>
+            </TableColumn>
             <TableColumn text="Almacén" fx:id="almacenCol" prefWidth="100">
                 <cellValueFactory><PropertyValueFactory property="almacenNombre" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Creación" fx:id="creacionCol" prefWidth="140">
+                <cellValueFactory><PropertyValueFactory property="fechaCreacion" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Modificación" fx:id="modificacionCol" prefWidth="140">
+                <cellValueFactory><PropertyValueFactory property="fechaModificacion" /></cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Modificado por" fx:id="usuarioCol" prefWidth="120">
+                <cellValueFactory><PropertyValueFactory property="ultimoUsuario" /></cellValueFactory>
             </TableColumn>
         </columns>
     </TableView>
@@ -60,8 +72,12 @@
                 <TextField fx:id="descripcionField" promptText="Ej. Color negro, 16GB RAM..." styleClass="form-input" prefWidth="150"/>
             </VBox>
             <VBox spacing="5">
+                <Label text="Departamento:" styleClass="form-label"/>
+                <TextField fx:id="departamentoField" promptText="Ej. Electrónica, Papelería..." styleClass="form-input" prefWidth="160"/>
+            </VBox>
+            <VBox spacing="5">
                 <Label text="Almacén Destino:" styleClass="form-label"/>
-                <ComboBox fx:id="almacenCombo" promptText="Seleccione..." styleClass="form-input" prefWidth="150"/>
+                <ComboBox fx:id="almacenCombo" promptText="Seleccione..." styleClass="form-input" prefWidth="160"/>
             </VBox>
             <Region HBox.hgrow="ALWAYS"/>
             <Button text="Cancelar" onAction="#cancelForm" styleClass="form-input" style="-fx-cursor: hand;"/>
@@ -69,10 +85,10 @@
         </HBox>
     </VBox>
 
-    <HBox fx:id="buttonBox" alignment="CENTER_RIGHT" spacing="15">
+    <HBox fx:id="buttonBox" alignment="CENTER" spacing="15">
         <Button text="Agregar Nuevo" onAction="#openAddModal" styleClass="btn-primary" />
-        <Button text="Modificar Seleccionado" onAction="#openUpdateModal" styleClass="btn-primary" />
-        <Button text="Eliminar Seleccionado" onAction="#deleteProducto" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;" />
+        <Button text="Modificar Seleccionado" onAction="#openUpdateModal" styleClass="btn-warning" />
+        <Button text="Eliminar Seleccionado" onAction="#deleteProducto" styleClass="btn-error" />
     </HBox>
 
 </VBox>

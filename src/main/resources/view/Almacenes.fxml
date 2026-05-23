@@ -20,7 +20,7 @@
             <TableColumn text="Nombre" fx:id="nombreCol" prefWidth="150">
                 <cellValueFactory><PropertyValueFactory property="nombre"/> </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Ubicación" fx:id="ubicacionCol" prefWidth="200">
+            <TableColumn text="Ubicación" fx:id="ubicacionCol" prefWidth="250">
                 <cellValueFactory><PropertyValueFactory property="ubicacion"/> </cellValueFactory>
             </TableColumn>
             <TableColumn text="Creación" fx:id="creacionCol" prefWidth="150">
@@ -28,6 +28,9 @@
             </TableColumn>
             <TableColumn text="Modificación" fx:id="modificacionCol" prefWidth="150">
                 <cellValueFactory><PropertyValueFactory property="fechaHoraUltimaMod"/> </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Modificado por" fx:id="usuarioCol" prefWidth="120">
+                <cellValueFactory><PropertyValueFactory property="ultimoUsuario" /></cellValueFactory>
             </TableColumn>
         </columns>
     </TableView>
