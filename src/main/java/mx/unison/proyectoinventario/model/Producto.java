@@ -3,6 +3,9 @@ package mx.unison.proyectoinventario.model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Representa la entidad Producto en la base de datos
+ */
 public class Producto {
     public int id;
     public String nombre;
@@ -125,6 +128,12 @@ public class Producto {
         this.ultimoUsuario = ultimoUsuario;
     }
 
+    /**
+     * Convierte fechas en formato ISO a formato dd/MM/yyyy hh:mm a
+     *
+     * @param isoDate Fecha en formato ISO String
+     * @return Fecha en formato dd/MM/yyyy hh:mm a
+     */
     private String formatDate(String isoDate) {
         if (isoDate == null  || isoDate.trim().isEmpty()) {
             return "";

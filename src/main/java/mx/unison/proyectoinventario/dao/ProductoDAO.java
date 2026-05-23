@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductoDAO {
+    /**
+     * Obtiene la lista de productos de la base de datos.
+     *
+     * @return Lista de productos
+     */
     public List<Producto> listProductos() {
         List<Producto> out = new ArrayList<>();
         String sql = "SELECT p.id, p.nombre, p.descripcion, p.cantidad, p.precio, p.departamento, p.almacen_id, a.nombre as almacen_nombre, p.fecha_hora_creacion, p.fecha_hora_ultima_modificacion, p.ultimo_usuario_en_modificar " +
@@ -37,6 +42,13 @@ public class ProductoDAO {
         return out;
     }
 
+    /**
+     * Inserta un nuevo producto a la base de datos con su fecha de creación.
+     *
+     * @param prod Objeto Producto que contiene los datos del nuevo producto a insertar
+     * @param usuario El nombre del usuario que realizó la acción
+     * @return El id generado automáticamente por la base de datos si se inserta exitosamente, si no, -1
+     */
     public int insertProducto(Producto prod, String usuario) {
         String sql = "INSERT INTO productos(nombre, descripcion, cantidad, precio, departamento, almacen_id, fecha_hora_creacion, ultimo_usuario_en_modificar) " +
                 "VALUES(?,?,?,?,?,?,?,?)";
@@ -59,6 +71,12 @@ public class ProductoDAO {
         return -1;
     }
 
+    /**
+     * Modifica los datos de un producto existente, genera la fecha de modificación e inserta el nombre del usuario que realizó la acción.
+     *
+     * @param prod Objeto Producto que contiene el id del producto a modificar y los datos que se modificaron
+     * @param usuario El nombre del usuario que realizó la acción
+     */
     public void updateProducto(Producto prod, String usuario) {
         String sql = "UPDATE productos SET nombre=?, descripcion=?, cantidad=?, precio=?, departamento=?, almacen_id=?, fecha_hora_ultima_modificacion=?, ultimo_usuario_en_modificar=? " +
                 "WHERE id=?";
@@ -79,6 +97,11 @@ public class ProductoDAO {
         }
     }
 
+    /**
+     * Elimina un producto de la base de datos.
+     *
+     * @param id El id del producto a eliminar
+     */
     public void deleteProducto(int id) {
         String sql = "DELETE FROM productos WHERE id=?";
         try (Connection c = DatabaseConnection.connect(); PreparedStatement ps = c.prepareStatement(sql)) {

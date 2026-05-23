@@ -12,7 +12,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class UsuarioDAO {
-
+    /**
+     * Inserta un nuevo usuario a la base de datos.
+     * Encripta la contraseña antes de insertarse usando BCrypt.
+     *
+     * @param nombre El nombre del nuevo usuario
+     * @param passPlain La contraseña del usuario en texto planp
+     * @param rol El rol del usuario, puede ser "ADMIN", "ALMACENES", o "PRODUCTOS"
+     */
     public void insertDefaultUser(String nombre, String passPlain, String rol) {
         String check = "SELECT nombre FROM usuarios WHERE nombre=?";
         try (Connection c = DatabaseConnection.connect(); PreparedStatement ps = c.prepareStatement(check)) {
@@ -32,6 +39,13 @@ public class UsuarioDAO {
         }
     }
 
+    /**
+     * Autentica un usuario con su usuario y contraseña y regresa los datos para la sesión.
+     *
+     * @param nombre El nombre del usuario
+     * @param passwordPlain La contraseña en texto plano
+     * @return Objeto Usuario con los datos del usuario autenticado si fue exitoso, si no, null
+     */
     public Usuario authenticate(String nombre, String passwordPlain) {
         String sql = "SELECT nombre, password, rol FROM usuarios WHERE nombre=?";
         try (Connection c = DatabaseConnection.connect(); PreparedStatement ps = c.prepareStatement(sql)) {

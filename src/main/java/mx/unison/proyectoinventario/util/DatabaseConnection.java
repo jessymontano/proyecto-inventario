@@ -5,13 +5,25 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Gestiona la conexión principal a la base de datos SQLite.
+ */
 public class DatabaseConnection {
     private static final String URL = "jdbc:sqlite:Inventario.db";
 
+    /**
+     * Genera una conexión a la base de datos SQLite
+     *
+     * @return Objeto Connection para utilizar la base de datos o null si falla
+     * @throws SQLException Si ocurre un error al intentar abrir la conexión
+     */
     public static Connection connect() throws SQLException {
         return DriverManager.getConnection(URL);
     }
 
+    /**
+     * Crea las tablas de la base de datos si no han sido creadas
+     */
     public static void initDatabase() {
         try (Connection c = connect(); Statement st = c.createStatement()) {
             // Tabla usuarios

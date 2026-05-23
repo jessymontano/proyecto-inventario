@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlmacenDAO {
+    /**
+     * Obtiene la lista de almacenes de la base de datos.
+     *
+     * @return Lista de almacenes
+     */
     public List<Almacen> listAlmacenes() {
         List<Almacen> out = new ArrayList<>();
         String sql = "SELECT id, nombre, ubicacion, fecha_hora_creacion, fecha_hora_ultima_modificacion, ultimo_usuario_en_modificar FROM almacenes";
@@ -31,6 +36,14 @@ public class AlmacenDAO {
         return out;
     }
 
+    /**
+     * Inserta un nuevo almacén en la base de datos con su fecha de creación.
+     *
+     * @param nombre Nombre del almacén
+     * @param ubicacion Ubicación del almacén
+     * @param usuario Nombre del usuario que realizó la acción
+     * @return El id generado automáticamente por la base de datos si se inserta exitosamente, si no, -1
+     */
     public int insertAlmacen(String nombre, String ubicacion, String usuario) {
         String sql = "INSERT INTO almacenes(nombre, ubicacion, fecha_hora_creacion, ultimo_usuario_en_modificar) VALUES(?,?,?,?)";
         try (Connection c = DatabaseConnection.connect(); PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -47,6 +60,14 @@ public class AlmacenDAO {
         return -1;
     }
 
+    /**
+     * Modifica los datos de un almacén existente, genera la fecha de modificación e inserta el nombre del usuario que realizó la acción.
+     *
+     * @param id El id del almacén a modificar
+     * @param nombre El nuevo nombre (o el nombre anterior si no se modificó)
+     * @param ubicacion La nueva ubicación (o la ubicación anterior si no se modificó)
+     * @param usuario El nombre del usuario que realizó la acción
+     */
     public void updateAlmacen(int id, String nombre, String ubicacion, String usuario) {
         String sql = "UPDATE almacenes SET nombre=?, ubicacion=?, fecha_hora_ultima_modificacion=?, ultimo_usuario_en_modificar=? WHERE id=?";
         try (Connection c = DatabaseConnection.connect(); PreparedStatement ps = c.prepareStatement(sql)) {
@@ -61,6 +82,11 @@ public class AlmacenDAO {
         }
     }
 
+    /**
+     * Elimina un almacén de la base de datos.
+     *
+     * @param id El id del almacén a eliminar
+     */
     public void deleteAlmacen(int id) {
         String sql = "DELETE FROM almacenes WHERE id=?";
         try (Connection c = DatabaseConnection.connect(); PreparedStatement ps = c.prepareStatement(sql)) {
